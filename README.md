@@ -32,7 +32,7 @@ ScanDaemon daemonHttp = new ScanDaemonBuilder(Protocol.HTTP).build();
 
 Using build directly will use the default port for the protocol (in this case HTTP=80), default timeout and default sleep values in milliseconds.
 
-In the case you want to customize that daemon behavior, you just need to add more steps to the builder:
+In the case you want to customize that behavior, you will just need to add additional steps to the builder:
 
 ```java
 ScanDaemon daemonHttp = new ScanDaemonBuilder(Protocol.HTTP).withPort(8080)
@@ -41,9 +41,9 @@ ScanDaemon daemonHttp = new ScanDaemonBuilder(Protocol.HTTP).withPort(8080)
                                                             .build();
 ```
 
-In this case, the daemon will scan for HTTP servers on the 8080 port, the connection timeout will be 30ms and after each cycle of scans, it will sleep for 1 second.
+In this case, the daemon will scan for HTTP servers on the 8080 port, the connection timeout will be 30ms and the daemon will sleep for 1 second after each cycle of scans.
 
-Please note that ScanDaemon is just an abstract class. It is actually creating a HttpScanDaemon underneath, so you can also cast it to its real type, however it is highly recommended to just use the abstract class as it acts as an interface:
+Please note that ScanDaemon is just an abstract class. ScanDaemonBuilder is actually creating a HttpScanDaemon underneath (it works at the same time as a Builder and as a Factory), so you can also cast it to its real type. However it is highly recommended to just use the abstract class as it acts as an interface:
 
 ```java
 HttpScanDaemon daemonHttp = (HttpScanDaemon) new ScanDaemonBuilder(Protocol.HTTP).build();
