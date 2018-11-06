@@ -1,6 +1,7 @@
 package brv.tools.daemons;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.UnknownHostException;
 
@@ -34,9 +35,10 @@ public class HttpsScanDaemon extends ScanDaemon {
 	        connection.setReadTimeout(10000);
 	        connection.setRequestMethod("HEAD");
 	        connection.setRequestProperty("Connection", "Keep-Alive");
+
+	        // Any codes between 200 and 399 should be ok.
 	        int responseCode = connection.getResponseCode();
-	        
-	        return (200 <= responseCode && responseCode <= 399);
+	        return (HttpURLConnection.HTTP_OK <= responseCode && responseCode < HttpURLConnection.HTTP_BAD_REQUEST);
 	        
 	    } catch (IOException exception) {
 	        return false;
