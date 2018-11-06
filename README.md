@@ -1,7 +1,7 @@
 # server-scanner
 Package of util classes to scan a LAN searching for different kind of servers (HTTP, HTPS, FTP...).
 
-Monitorized protocols
+## Monitorized protocols
 The following protocols can be scanned on the current version:
 - ICMP
 - HTTP
