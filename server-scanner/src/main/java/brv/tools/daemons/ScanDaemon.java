@@ -182,7 +182,7 @@ public abstract class ScanDaemon extends ObservableDaemon implements Runnable {
 	 */
     public void run() 
     { 
-		running.set(true);
+    	running.set(true);
     	while(running.get()) {
     		
 			// Obtain the next ip to scan
@@ -317,7 +317,7 @@ public abstract class ScanDaemon extends ObservableDaemon implements Runnable {
 	/**
 	 * Retrieves the hostname from an ip address.
 	 * @param ip - The ip address to retrieve the hostname from.
-	 * @return <code>hostname</code> - if it was possible to retrieve it. An empty String will be returned otherwise.
+	 * @return <code>hostname</code> - if it was possible to retrieve it. An empty <code>String</code> will be returned otherwise.
 	 */
 	private String getHostname(String ip) {
 		InetAddress address;
