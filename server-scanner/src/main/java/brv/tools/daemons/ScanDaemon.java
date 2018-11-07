@@ -176,6 +176,9 @@ public abstract class ScanDaemon extends ObservableDaemon implements Runnable {
 	 * Loops over all the LAN hosts, scanning them until it gets an Interruption signal or 
 	 * the methods {@link ScanDaemon#stop()} or {@link ScanDaemon#interrupt()} are invoked.
 	 * </p>
+	 * <p>
+	 * The daemon will go to sleep after each completed cycle of scans.
+	 * </p>
 	 */
     public void run() 
     { 
@@ -191,7 +194,6 @@ public abstract class ScanDaemon extends ObservableDaemon implements Runnable {
 					checkRegisteredServer(ip);
 				else 
 					checkUnregisteredServer(ip);
-	    			
 	    	}
 		} catch (InterruptedException e) {
 			logger.warning("Daemon has been interrupted");
@@ -200,6 +202,22 @@ public abstract class ScanDaemon extends ObservableDaemon implements Runnable {
 		}   	
     } 
     
+	/**
+	 * Obtains the next host ip address to be scanned.
+	 * @return <code>String</code> - a valid ip address between <code>[a.b.c.1]</code> and <code>[a.b.c.254]</code>.
+	 * @throws InterruptedException 
+	 */
+	private String nextHost() throws InterruptedException {
+		String nextHost = networkId + "." + currentHost;
+		
+		if(currentHost < 254) // 254
+			currentHost++;
+		else
+			currentHost = 1;
+			
+		return nextHost;
+	}
+	
     /**
      * Returns an object representing the daemon configuration.
      * @return {@link brv.tools.model.ScanDaemonConfiguration ScanDaemonConfiguration}
@@ -232,10 +250,10 @@ public abstract class ScanDaemon extends ObservableDaemon implements Runnable {
 	/**
 	 * Attempts to add an ip address from the detected servers cache.
 	 * <p>
-	 * If an ip address is added, a notification will be send to all the listeners:
+	 * If an ip address is added to the cache, a notification will be send to all the registered listeners.
 	 * </p>
-	 * <pre>{@link #addServerUpdatedListener(ServerUpdatedListener)}</pre>
-	 * @param ip Web Server a registrar.
+	 * @param ip - the ip address to be checked.
+	 * @see ServerUpdatedListener
 	 */
 	private void checkRegisteredServer(String ip) {
 		
@@ -253,11 +271,10 @@ public abstract class ScanDaemon extends ObservableDaemon implements Runnable {
 	/**
 	 * Attempts to delete an ip address from the detected servers cache.
 	 * <p>
-	 * If an ip address is deleted, a notification will be send to all the listeners:
+	 * If an ip address is deleted from the cache, a notification will be send to all the registered listeners.
 	 * </p>
-	 * <pre>{@link #addRemovedUpdatedListener(ServerRemovedListener)}</pre>
-	 * <p>
-	 * @param ip Web Server a registrar.
+	 * @param ip - the ip address to be checked.
+	 * @see ServerRemovedListener
 	 */
 	private void checkUnregisteredServer(String ip) {
 		
@@ -273,44 +290,6 @@ public abstract class ScanDaemon extends ObservableDaemon implements Runnable {
 	}
 	
 	/**
-	 * Obtains the next host ip address to be scanned.
-	 * <p>
-	 * Everytime the host reaches 255, the host is reseted to 1, and the daemon will go to sleep the specified ammount of time.
-	 * </p>
-	 * @return <code>String</code> - a valid ip address between <code>[a.b.c.1]</code> and <code>[a.b.c.254]</code>.
-	 * @throws InterruptedException 
-	 */
-	private String nextHost() throws InterruptedException {
-		String nextHost = networkId + "." + currentHost;
-		
-		if(currentHost < 254) // 254
-			currentHost++;
-		else {
-			currentHost = 1;
-			Thread.sleep(sleep);
-		}
-		
-		return nextHost;
-	}
-	
-	/**
-	 * Retrieves the hostname from an ip address.
-	 * @param ip - The ip address to retrieve the hostname from.
-	 * @return Hostname if it was possible to retrieve it. An empty String will be returned otherwise.
-	 */
-	private String getHostname(String ip) {
-		InetAddress address;
-		String hostname;
-		try {
-			address = InetAddress.getByName(ip);
-			hostname = address.getHostName();
-		} catch (UnknownHostException e) {
-			hostname = "";
-		}
-		return hostname;
-	}
-	
-	/**
 	 * Generates a scan result with useful information about the scanned server.
 	 * <p>
 	 * Scanned information includes:
@@ -323,10 +302,10 @@ public abstract class ScanDaemon extends ObservableDaemon implements Runnable {
 	 *	<li>Ping result</li>
 	 *	<li>Generation date of the result</li>
 	 * </ul>
-	 * @param ip
-	 * @param hostname
-	 * @param status
-	 * @return
+	 * @param ip - the scanned ip address
+	 * @param hostname - the scanned hostname
+	 * @param status - the current server {@link brv.tools.model.ServerStatus status}.
+	 * @return <code>{@link brv.tools.model.ScanResult ScanResult}</code> - an object containing useful information about the scanned server.
 	 */
 	private ScanResult generateResult(String ip, String hostname, ServerStatus status) {
 		
@@ -341,6 +320,23 @@ public abstract class ScanDaemon extends ObservableDaemon implements Runnable {
 		
 		return result;
 	}
+
+	/**
+	 * Retrieves the hostname from an ip address.
+	 * @param ip - The ip address to retrieve the hostname from.
+	 * @return <code>hostname</code> - if it was possible to retrieve it. An empty String will be returned otherwise.
+	 */
+	private String getHostname(String ip) {
+		InetAddress address;
+		String hostname;
+		try {
+			address = InetAddress.getByName(ip);
+			hostname = address.getHostName();
+		} catch (UnknownHostException e) {
+			hostname = "";
+		}
+		return hostname;
+	}
 	
 	/**
 	 * Pings a determined url.
@@ -349,7 +345,7 @@ public abstract class ScanDaemon extends ObservableDaemon implements Runnable {
 	 * depending of the protocol and server type.
 	 * </p>
 	 * @param ip the ip to be pinged.
-	 * @return <code>true</code> if a server gives a successful reply.
+	 * @return <code>true</code> - if a server gives a successful reply.
 	 */
 	public abstract boolean ping(String ip);
 
