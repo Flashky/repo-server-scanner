@@ -182,32 +182,25 @@ public abstract class ScanDaemon extends ObservableDaemon implements Runnable {
 	 */
     public void run() 
     { 
-    	try {
-			running.set(true);
-	    	while(running.get()) {
-	    		
-				// Obtain the next ip to scan
-				String ip = nextHost();	
-				
-				// Send a request to the listening protocol (template method pattern, to implement by subclasses).
-				if(ping(ip))
-					checkRegisteredServer(ip);
-				else 
-					checkUnregisteredServer(ip);
-	    	}
-		} catch (InterruptedException e) {
-			logger.warning("Daemon has been interrupted");
-			running.set(false);
-			Thread.currentThread().interrupt();
-		}   	
+		running.set(true);
+    	while(running.get()) {
+    		
+			// Obtain the next ip to scan
+			String ip = nextHost();	
+			
+			// Send a request to the listening protocol (template method pattern, to implement by subclasses).
+			if(ping(ip))
+				checkRegisteredServer(ip);
+			else 
+				checkUnregisteredServer(ip);
+    	}
     } 
     
 	/**
 	 * Obtains the next host ip address to be scanned.
 	 * @return <code>String</code> - a valid ip address between <code>[a.b.c.1]</code> and <code>[a.b.c.254]</code>.
-	 * @throws InterruptedException 
 	 */
-	private String nextHost() throws InterruptedException {
+	private String nextHost() {
 		String nextHost = networkId + "." + currentHost;
 		
 		if(currentHost < 254) // 254
