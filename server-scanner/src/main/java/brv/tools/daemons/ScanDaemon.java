@@ -179,17 +179,25 @@ public abstract class ScanDaemon extends ObservableDaemon implements Runnable {
 	 */
     public void run() 
     { 
-		running.set(true);
-    	while(running.get()) {
-    		try {
-				scan();
-			} catch (InterruptedException e) {
-				logger.warning("Daemon has been interrupted");
-				running.set(false);
-				Thread.currentThread().interrupt();
-			}   		
-
-    	}
+    	try {
+			running.set(true);
+	    	while(running.get()) {
+	    		
+				// Obtain the next ip to scan
+				String ip = nextHost();	
+				
+				// Send a request to the listening protocol (template method pattern, to implement by subclasses).
+				if(ping(ip))
+					checkRegisteredServer(ip);
+				else 
+					checkUnregisteredServer(ip);
+	    			
+	    	}
+		} catch (InterruptedException e) {
+			logger.warning("Daemon has been interrupted");
+			running.set(false);
+			Thread.currentThread().interrupt();
+		}   	
     } 
     
     /**
@@ -219,24 +227,6 @@ public abstract class ScanDaemon extends ObservableDaemon implements Runnable {
      */
 	public long getId() {
 		return id;
-	}
-
-	/**
-	 * Scans a host, performing a ping and registering the result on the cache if needed.
-	 * @throws InterruptedException
-	 */
-	private void scan() throws InterruptedException {
-
-		// Se obtiene la siguiente ip a escanear
-		String ip = nextHost();	
-		// Se envía un ping al puerto HTTP:
-		// - Si hay ping, se verifica si ha de registrarse como un nuevo server.
-		// - Si no hay ping, se verifica si ha de quitar el registro de algÃºn server registrado previamente.
-		if(ping(ip))
-			checkRegisteredServer(ip);
-		else 
-			checkUnregisteredServer(ip);
-		
 	}
 	
 	/**
