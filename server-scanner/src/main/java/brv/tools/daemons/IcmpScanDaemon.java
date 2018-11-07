@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import brv.tools.model.Protocol;
+import brv.tools.model.enums.Protocol;
+
 
 /**
  * Scans computers by a simple ICMP echo request.

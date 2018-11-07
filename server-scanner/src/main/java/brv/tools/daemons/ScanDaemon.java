@@ -12,10 +12,10 @@ import java.util.logging.Logger;
 
 import brv.tools.listeners.ServerRemovedListener;
 import brv.tools.listeners.ServerUpdatedListener;
-import brv.tools.model.Protocol;
 import brv.tools.model.ScanDaemonConfiguration;
 import brv.tools.model.ScanResult;
 import brv.tools.model.ServerStatus;
+import brv.tools.model.enums.Protocol;
 
 /**
  * Abstract class for scanning servers as a daemon.

@@ -22,6 +22,15 @@
 		    <artifactId>commons-net</artifactId>
 		    <version>3.6</version>
 		</dependency>
+		
+		<!-- Personal tool dependencies -->
+		<dependency>
+			 <groupId>brv.tools</groupId>
+			 <artifactId>model</artifactId>
+			 <version>0.0.1-SNAPSHOT</version>
+			 <scope>compile</scope>
+		</dependency>
+		
 		 <!-- -->
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
 		<!-- <dependency>

@@ -3,7 +3,8 @@ package brv.tools.daemons;
 import java.net.UnknownHostException;
 import java.util.Objects;
 
-import brv.tools.model.Protocol;
+import brv.tools.model.enums.Protocol;
+
 
 /**
  * Generic Builder for ScanDaemon subclasses.

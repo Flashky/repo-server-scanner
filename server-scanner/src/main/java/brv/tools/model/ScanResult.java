@@ -3,6 +3,8 @@ package brv.tools.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import brv.tools.model.enums.Protocol;
+
 /**
  * 
  * @author flash
