@@ -1,6 +1,7 @@
 package brv.tools.daemons.manager;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +43,6 @@ public class ScanDaemonManagerMap implements ScanDaemonManager {
 		return daemon.start();
 	}
 	
-	@Override
 	public boolean resume(long daemonId) throws ScanDaemonNotFoundException {
 
 		ScanDaemon daemon = daemons.get(daemonId);
@@ -54,7 +54,6 @@ public class ScanDaemonManagerMap implements ScanDaemonManager {
 		
 	}
 
-	@Override
 	public boolean stop(long daemonId) throws ScanDaemonNotFoundException {
 		
 		ScanDaemon daemon = daemons.get(daemonId);
@@ -65,8 +64,6 @@ public class ScanDaemonManagerMap implements ScanDaemonManager {
 		return daemon.stop();
 	}
 	
-
-	@Override
 	public boolean interrupt(long daemonId) throws ScanDaemonNotFoundException {
 		
 
@@ -80,7 +77,6 @@ public class ScanDaemonManagerMap implements ScanDaemonManager {
 	}
 	
 
-	@Override
 	public boolean remove(long daemonId) throws ScanDaemonNotFoundException {
 		
 		ScanDaemon daemon = daemons.get(daemonId);
@@ -107,7 +103,6 @@ public class ScanDaemonManagerMap implements ScanDaemonManager {
 		return result;
 	}
 
-	@Override
 	public boolean stop() {
 		
 		boolean result = false;
@@ -119,7 +114,6 @@ public class ScanDaemonManagerMap implements ScanDaemonManager {
 		return result;
 	}
 	
-	@Override
 	public boolean interrupt() {
 		
 		boolean result = false;
@@ -131,22 +125,34 @@ public class ScanDaemonManagerMap implements ScanDaemonManager {
 		return result;
 	}
 	
-	@Override
 	public boolean remove() {
 		
 		boolean result = false;
 		
-		for(Entry<Long,ScanDaemon> entry : daemons.entrySet()) {
-			result |= entry.getValue().stop();
-			daemons.remove(entry.getKey());
-		}
+		Iterator<Long> iterator = daemons.keySet().iterator();
+		Long daemonId;
+		
+		while (iterator.hasNext())
+		{
+			daemonId = iterator.next();
+			result |= daemons.get(daemonId).stop();
+			iterator.remove();
+		 }
 		
 		return result;
 	}
 
+	public boolean contains(long daemonId) {
+		return daemons.containsKey(daemonId);
+	}
 	
-	@Override
-	public List<ScanDaemonConfiguration> findAllDaemons() {
+	public ScanDaemonConfiguration find(long daemonId) {
+
+		ScanDaemon daemon = daemons.get(daemonId);
+		return (daemon != null) ? daemon.getConfiguration() : null;	
+	}
+
+	public List<ScanDaemonConfiguration> find() {
 		List<ScanDaemonConfiguration> result = new LinkedList<>();
 
 		for (Entry<Long,ScanDaemon> entry : daemons.entrySet()) {
@@ -155,6 +161,7 @@ public class ScanDaemonManagerMap implements ScanDaemonManager {
 		
 		return result;
 	}
+
 
 
 

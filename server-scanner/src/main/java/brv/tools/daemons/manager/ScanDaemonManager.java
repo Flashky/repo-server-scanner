@@ -110,9 +110,23 @@ public interface ScanDaemonManager {
 	boolean remove();
 	
 	/**
+	 * Verifies if there is any daemon with the specified id on the manager.
+	 * @param daemonId - the daemon id to be found
+	 * @return <code>true</code> - if there is any daemon with the specified daemon id.
+	 */
+	boolean contains(long daemonId);
+	
+	/**
+	 * Finds the configuration of an specific daemon added to the manager.
+	 * @param daemonId - the daemon to be found.
+	 * @return <code>ScanDaemonConfiguration</code> - the daemon configuration, <code>null</code> if there is no daemon on that id.
+	 */
+	ScanDaemonConfiguration find(long daemonId);
+	
+	/**
 	 * Returns a list with the configuration of all the daemons added to the manager.
 	 * @return
 	 */
-	List<ScanDaemonConfiguration> findAllDaemons();
+	List<ScanDaemonConfiguration> find();
 
 }
