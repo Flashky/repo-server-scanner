@@ -320,6 +320,9 @@ public abstract class ScanDaemon extends ObservableDaemon implements Runnable {
 	 * @return <code>hostname</code> - if it was possible to retrieve it. An empty <code>String</code> will be returned otherwise.
 	 */
 	private String getHostname(String ip) {
+		
+		//InetAddress address2 = NbtAddress.getByName( "jmorris2" ).getInetAddress();
+		 
 		InetAddress address;
 		String hostname;
 		try {

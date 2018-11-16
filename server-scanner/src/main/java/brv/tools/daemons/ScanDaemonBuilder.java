@@ -108,7 +108,7 @@ public class ScanDaemonBuilder{
 				result = new IcmpScanDaemon(this);
 				break;
 			case HTTP:
-				result = new HttpScanDaemon(this);
+				result = new HttpClientScanDaemon(this);
 				break;
 			case HTTPS:
 				result = new HttpsScanDaemon(this);
