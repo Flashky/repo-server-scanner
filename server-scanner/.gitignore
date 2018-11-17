@@ -1,3 +1,6 @@
+# Standard .gitignore file to use on any project
+# Add to root project folder.
+
 # Compiled class file
 *.class
 
@@ -22,8 +25,17 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-# Specific files
-pom.properties
+# Eclipse folders
+.classpath
+.project
+.settings
+.mvn
 
-# Folders
-target/**
+# Intellij folders
+.idea/
+*.iml
+*.iws
+
+# Maven
+log/
+target/
