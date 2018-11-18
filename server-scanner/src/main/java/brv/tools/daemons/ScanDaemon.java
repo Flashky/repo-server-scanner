@@ -75,6 +75,7 @@ public abstract class ScanDaemon extends ObservableDaemon implements Runnable {
 		if(builder.getSleep() < 1)
 			throw new IllegalArgumentException("Sleep must be greater than 0.");
 
+		
 		// Obtains the network id.
 		// Example: If the hostAdress is "192.168.1.52", the networkId will be "192.168.1"
 		//String hostAddress = InetAddress.getLocalHost().getHostAddress();
