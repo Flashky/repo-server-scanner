@@ -24,6 +24,7 @@ public class HttpScanDaemon extends ScanDaemon {
 	}
 	
 	
+	
 	@Override
 	public boolean ping(String ip) {
 		String url = protocol.getScheme() + ip + ":" + port;
