@@ -2,9 +2,9 @@
 
 import java.net.UnknownHostException;
 
+import brv.commons.model.enums.Protocol;
 import brv.tools.daemons.ScanDaemon;
 import brv.tools.daemons.ScanDaemonBuilder;
-import brv.tools.model.enums.Protocol;
 
 public class Main {
 	public static void main(String[] args) throws UnknownHostException {

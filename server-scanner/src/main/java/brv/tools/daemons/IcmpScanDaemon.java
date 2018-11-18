@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import brv.tools.model.enums.Protocol;
+import brv.commons.model.enums.Protocol;
 
 
 /**

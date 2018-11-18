@@ -3,7 +3,7 @@ package brv.tools.daemons;
 import java.net.UnknownHostException;
 import java.util.Objects;
 
-import brv.tools.model.enums.Protocol;
+import brv.commons.model.enums.Protocol;
 
 
 /**

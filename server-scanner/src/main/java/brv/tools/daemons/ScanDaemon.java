@@ -1,6 +1,7 @@
 package brv.tools.daemons;
 
 import java.net.InetAddress;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,12 +11,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
+import brv.commons.model.enums.Protocol;
 import brv.tools.listeners.ServerRemovedListener;
 import brv.tools.listeners.ServerUpdatedListener;
 import brv.tools.model.ScanDaemonConfiguration;
 import brv.tools.model.ScanResult;
 import brv.tools.model.ServerStatus;
-import brv.tools.model.enums.Protocol;
+import brv.tools.util.InetAddressLocalhost;
+import brv.tools.util.InetAddressLocalhostSimple;
 
 /**
  * Abstract class for scanning servers as a daemon.
@@ -74,9 +77,10 @@ public abstract class ScanDaemon extends ObservableDaemon implements Runnable {
 
 		// Obtains the network id.
 		// Example: If the hostAdress is "192.168.1.52", the networkId will be "192.168.1"
-		String hostAddress = InetAddress.getLocalHost().getHostAddress();		
-		this.networkId = hostAddress.substring(0, hostAddress.lastIndexOf('.'));
+		//String hostAddress = InetAddress.getLocalHost().getHostAddress();
+		//this.networkId = hostAddress.substring(0, hostAddress.lastIndexOf('.'));
 		
+		this.networkId 	= "192.168.1";
 		this.protocol 	= Objects.requireNonNull(builder.getProtocol());
 		this.port 		= builder.getPort();
 		this.timeout 	= builder.getTimeout();

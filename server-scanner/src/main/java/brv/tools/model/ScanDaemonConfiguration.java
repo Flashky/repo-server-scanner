@@ -2,7 +2,7 @@ package brv.tools.model;
 
 import java.io.Serializable;
 
-import brv.tools.model.enums.Protocol;
+import brv.commons.model.enums.Protocol;
 
 /**
  * Class which represents the configuration of an specific {@link brv.tools.daemons.ScanDaemon ScanDaemon}.
