@@ -15,7 +15,6 @@ pipeline {
 
 		stage('Build') {
 			steps {
-				sh 'mvn --version'
 				sh 'mvn -f server-scanner/pom.xml install'
 			}
 		}
